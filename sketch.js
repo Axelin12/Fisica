@@ -14,8 +14,17 @@ function setup()
   world = engine.world;
   pelota = Bodies.circle(200,10,20,{restitution:1.0, frictionAir:0.01})
   World.add(world, pelota);
-  piso = Bodies.rectangle(200, 390, 400, 20, {isStatic:true})
-  World.add(world, piso);
+  piso = new Pared(200,390, 400,20)
+  left = new Pared(10,200,20,400)
+  right = new Pared (390,200,20,400)
+  ceiling= new Pared(200,10,400,20)
+  btn = createButton("arriba")
+  btn.position(400,20)
+  btn.mouseClicked(up);
+  btn2 = createButton("izquierda")
+  btn2.position(400,50)
+  btn2.mouseClicked(lef);
+
   Remolino = Bodies.rectangle(200, 200, 125, 30,{isStatic:true})
   World.add(world,Remolino)
   rectMode(CENTER);
@@ -27,7 +36,10 @@ function draw()
   background(51);
  Engine.update(engine);
  ellipse(pelota.position.x, pelota.position.y, 20);
- rect(piso.position.x, piso.position.y, 400, 20) ;
+ piso.draw()
+ left.draw()
+ right.draw()
+ ceiling.draw()
  Body.rotate(Remolino, angulo)
  push()
  translate(Remolino.position.x, Remolino.position.y)
@@ -37,3 +49,11 @@ function draw()
  angulo = angulo+ 0.1
 }
 
+function up() {
+  Body.applyForce(pelota, {x:0, y:0},{x:0, y:-0.05})
+
+}
+function lef() {
+  Body.applyForce(pelota, {x:0, y:0},{x:-0.05, y:0})
+
+}
